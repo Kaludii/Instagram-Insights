@@ -182,25 +182,25 @@ if uploaded_files:
             st.markdown(generate_download_link(pd.DataFrame(following), "following.csv"), unsafe_allow_html=True)
 
         if show_received_requests:
-            received_requests = get_users(data["follow_requests_you've_received.json"], 'relationships_follow_requests_received')
+            received_requests = get_users(data, 'relationships_follow_requests_received', "follow_requests_you've_received.json")
             st.subheader("Follow Requests Received")
             st.write(pd.DataFrame(received_requests))
             st.markdown(generate_download_link(pd.DataFrame(received_requests), "follow_requests_received.csv"), unsafe_allow_html=True)
 
         if show_pending_requests:
-            pending_requests = get_users(data['pending_follow_requests.json'], 'relationships_follow_requests_sent')
+            pending_requests = get_users(data, 'relationships_follow_requests_sent', 'pending_follow_requests.json')
             st.subheader("Pending Follow Requests")
             st.write(pd.DataFrame(pending_requests))
             st.markdown(generate_download_link(pd.DataFrame(pending_requests), "pending_follow_requests.csv"), unsafe_allow_html=True)
 
         if show_recent_requests:
-            recent_requests = get_users(data['recent_follow_requests.json'], 'relationships_permanent_follow_requests')
+            recent_requests = get_users(data, 'relationships_permanent_follow_requests', 'recent_follow_requests.json')
             st.subheader("Recent Follow Requests")
             st.write(pd.DataFrame(recent_requests))
             st.markdown(generate_download_link(pd.DataFrame(recent_requests), "recent_follow_requests.csv"), unsafe_allow_html=True)
 
         if show_unfollowed_accounts:
-            unfollowed_accounts = get_users(data['recently_unfollowed_accounts.json'], 'relationships_unfollowed_users')
+            unfollowed_accounts = get_users(data, 'relationships_unfollowed_users', 'recently_unfollowed_accounts.json')
             st.subheader("Recently Unfollowed Accounts")
             st.write(pd.DataFrame(unfollowed_accounts))
             st.markdown(generate_download_link(pd.DataFrame(unfollowed_accounts), "recently_unfollowed_accounts.csv"), unsafe_allow_html=True)

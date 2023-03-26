@@ -31,13 +31,44 @@ def generate_download_link(df, filename):
 def count_users(json_data, key):
     return len(json_data[key])
 
-def get_users(json_data, key):
+def get_users(data, key, file_name):
     users = []
-    for item in json_data[key]:
-        user_data = item['string_list_data'][0]
-        timestamp = datetime.utcfromtimestamp(user_data['timestamp']).strftime('%m/%d/%Y %H:%M')
-        users.append({'Username': user_data['value'], 'Profile URL': user_data['href'], 'Timestamp': timestamp})
+    json_data = data[file_name]
+
+    if key == 'string_list_data':
+        for item in json_data:
+            user_data = item[key][0]
+            timestamp = datetime.utcfromtimestamp(user_data['timestamp']).strftime('%m/%d/%Y %H:%M')
+            users.append({'Username': user_data['value'], 'Profile URL': user_data['href'], 'Timestamp': timestamp})
+    else:
+        for item in json_data[key]:
+            user_data = item['string_list_data'][0]
+            timestamp = datetime.utcfromtimestamp(user_data['timestamp']).strftime('%m/%d/%Y %H:%M')
+            users.append({'Username': user_data['value'], 'Profile URL': user_data['href'], 'Timestamp': timestamp})
+
     return users
+
+
+def get_missing_files(data):
+    required_files = [
+        'followers.json',
+        'following.json',
+        "follow_requests_you've_received.json",
+        'pending_follow_requests.json',
+        'recent_follow_requests.json',
+        'recently_unfollowed_accounts.json',
+    ]
+    missing_files = [file for file in required_files if file not in data]
+
+    if ('followers.json' not in data and 'followers_1.json' not in data) or ('followers.json' in missing_files and 'followers_1.json' in data):
+        missing_files.remove('followers.json')
+    elif 'followers.json' in missing_files and 'followers_1.json' not in data:
+        missing_files.remove('followers.json')
+        missing_files.append('followers_1.json')
+
+    return missing_files
+
+
 
 st.set_page_config(page_title='Instagram Insights')
 st.title('Instagram Insights')
@@ -58,14 +89,22 @@ if uploaded_files:
         users_not_following_me_back = st.sidebar.checkbox('Users Not Following Me Back')
         users_im_not_following_back = st.sidebar.checkbox("Users I'm Not Following Back")
 
+        # data loading and parsing
         data = {}
         for file in uploaded_files:
             file_name = file.name
             file_content = file.getvalue().decode()
             data[file_name] = json.loads(file_content)
-        
-        followers = get_users(data['followers.json'], 'relationships_followers')
-        following = get_users(data['following.json'], 'relationships_following')
+
+        # Check if 'followers.json' or 'followers_1.json' is present and load the followers accordingly
+        if 'followers.json' in data:
+            followers = get_users(data, 'relationships_followers', 'followers.json')
+        elif 'followers_1.json' in data:
+            followers = get_users(data, 'string_list_data', 'followers_1.json')
+        else:
+            st.error("Please upload the followers.json or followers_1.json file.")
+
+        following = get_users(data, 'relationships_following', 'following.json')
 
         # Create bar chart with counts
         chart_labels = [
@@ -77,14 +116,20 @@ if uploaded_files:
             "Recently Unfollowed Accounts",
         ]
 
+        if 'followers.json' in data:
+            followers_count = count_users(data['followers.json'], 'relationships_followers')
+        elif 'followers_1.json' in data:
+            followers_count = len(data['followers_1.json'])
+
         chart_values = [
-            count_users(data['followers.json'], 'relationships_followers'),
+            followers_count,
             count_users(data['following.json'], 'relationships_following'),
             count_users(data["follow_requests_you've_received.json"], 'relationships_follow_requests_received'),
             count_users(data['pending_follow_requests.json'], 'relationships_follow_requests_sent'),
             count_users(data['recent_follow_requests.json'], 'relationships_permanent_follow_requests'),
             count_users(data['recently_unfollowed_accounts.json'], 'relationships_unfollowed_users'),
         ]
+
 
         bar_chart = go.Figure(
             data=[
@@ -160,7 +205,14 @@ if uploaded_files:
             st.write(pd.DataFrame(unfollowed_accounts))
             st.markdown(generate_download_link(pd.DataFrame(unfollowed_accounts), "recently_unfollowed_accounts.csv"), unsafe_allow_html=True)
 
-    except KeyError:
-        st.error("Please make sure to upload all required files.")
+    except KeyError as e:
+        missing_files = get_missing_files(data)
+        if missing_files:
+            missing_files_str = ", ".join(missing_files)
+            st.error(f"Please make sure to upload the following missing file(s): {missing_files_str}")
+        else:
+            st.error(f"An error occurred while processing your files: {e}")
+
+
 else:
     st.warning("Please upload your Instagram data files.")

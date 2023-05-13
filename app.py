@@ -76,8 +76,8 @@ st.title('Instagram Insights')
 st.markdown('''
 Welcome to Instagram Insights, a tool to help you analyze and understand your Instagram data like users not following you back or users you aren't following back.
 Upload your Instagram data, and the app will visualize various insights such as followers, following, follow requests, and more.
-Filter and download the data for further analysis. You can download your Instagram data by going to Settings > Data Download, and click on 'Request Download'.
-Make sure you download the data as a JSON file. When the data is emailed to you, upload all the files in the 'followers_and_following' folder, and that's it!
+Filter and download the data for further analysis. You can download your Instagram data by going to More > Your Activity > Download Your Information, and clicking on 'Request Download'.
+Make sure you download the data as a JSON file. When the data is emailed to you, upload all the files in the 'followers_and_following' folder, which is in part 4 of the download folders, and that's it!
 ''')
 
 
@@ -149,14 +149,14 @@ if uploaded_files:
         if users_not_following_me_back:
             not_following_me_back = [user for user in following if user['Username'] not in [follower['Username'] for follower in followers]]
             df_not_following_me_back = pd.DataFrame(not_following_me_back)
-            st.subheader(f"Users Not Following Me Back ({len(df_not_following_me_back) - 1})")
+            st.subheader(f"Users Not Following Me Back ({len(df_not_following_me_back)})")
             st.write(df_not_following_me_back)
             st.markdown(generate_download_link(df_not_following_me_back, "users_not_following_me_back.csv"), unsafe_allow_html=True)
 
         if users_im_not_following_back:
             im_not_following_back = [user for user in followers if user['Username'] not in [following_user['Username'] for following_user in following]]
             df_im_not_following_back = pd.DataFrame(im_not_following_back)
-            st.subheader(f"Users I'm Not Following Back ({len(df_im_not_following_back) - 1})")
+            st.subheader(f"Users I'm Not Following Back ({len(df_im_not_following_back)})")
             st.write(df_im_not_following_back)
             st.markdown(generate_download_link(df_im_not_following_back, "users_im_not_following_back.csv"), unsafe_allow_html=True)
 

@@ -16,9 +16,9 @@ Click [Here](https://huggingface.co/spaces/Kaludi/Instagram-Insights-Streamlit_A
 
 ## Usage
 
-1.  Download your Instagram data by going to **Settings > Data Download**, and click on "Request Download". Make sure you download the data as a JSON file.
+1.  Download your Instagram data by going to More > Your Activity > Download Your Information, and clicking on 'Request Download'. Make sure you download the data as a JSON file.
     
-2.  When the data is emailed to you, upload all the files in the `followers_and_following` folder to the app.
+2.  When the data is emailed to you, upload all the files in the `followers_and_following`, which is in part 4 of the download folders, and upload the folder to the app.
     
 3.  Use the filters in the sidebar to view and analyze different aspects of your Instagram data.
     

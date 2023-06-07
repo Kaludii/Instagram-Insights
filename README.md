@@ -1,51 +1,53 @@
+# Instagram Insights
 
-# Carbon Footprint Score Calculator
-
-The Carbon Footprint Score Calculator is a Python Streamlit web application that allows users to answer questions about their lifestyle choices during the pandemic and the current period, helping determine the environmental impact of these choices. The application will display information on how your Carbon Footprint Score has changed from the pandemic to the present. The application is divided into two parts:
-
-1. Carbon_Footprint_Calc.py - main application where users answer the survey
-2. Submission_Score.py - where the analysis of all the submissions is displayed
+Instagram Insights is a Streamlit application that allows you to analyze and visualize your Instagram data like users not following you back, users you aren't following back, and more.
 
 # Web App
-Click [Here](https://kaludii-carbon-footprint-calc-bios-carbon-footprint-calc-xgt0yx.streamlit.app/ "Here") To View This Application Online!
-![image](https://github.com/Kaludii/Carbon-Footprint-Calc-BIOS365/assets/63890666/cabb3141-96c7-4a27-9f89-b70e8237de35)
+Click [Here](https://huggingface.co/spaces/Kaludi/Instagram-Insights-Streamlit_App "Here") To View This App Online!
+
+![image](https://user-images.githubusercontent.com/63890666/227370342-1528acdc-5fdc-4ef9-a3a3-8e0dd3d1677d.png)
 
 ## Features
 
-* Survey-style questions to calculate your Carbon Footprint Score
-* Comparison of your Carbon Footprint Score from during the pandemic to the current period
-* Submissions analysis visualization in the 'pages/Submission_Score.py'
+-   Visualize insights from your Instagram data like followers, following, follow requests, and more.
+-   Filter and download the data for further analysis.
+-   Easy to use interface.
 
 ## Usage
 
-1. Fill in the survey questions on the main page of the application.
-2. Submit the survey by clicking on the "Submit" button.
-3. View your score on the next page, along with comparison charts and suggestions on how to improve it.
+1.  Download your Instagram data by going to More > Your Activity > Download Your Information, and clicking on 'Request Download'. Make sure you download the data as a JSON file.
 
-## Installation
+2.  When the data is emailed to you, upload all the files in the `followers_and_following`, which is in part 4 of the download folders, and upload the folder to the app.
 
-1. Clone the repository
-   ```
-   git clone https://github.com/Kaludii/Carbon-Footprint-Score-Calculator.git
-   ```
-2. Change your directory to the cloned project
-   ```
-   cd Carbon-Footprint-Score-Calculator
-   ```
-3. Install necessary dependencies
-   ```
-   pip install -r requirements.txt
-   ```
-4. Run the Streamlit application
-   ```
-   streamlit run Carbon_Footprint_Score_Calculator.py
-   ```
-5.  Open your web browser and visit `http://localhost:8501`.
+3.  Use the filters in the sidebar to view and analyze different aspects of your Instagram data.
 
-## Submission Scores Analysis
+4.  Download the filtered data as CSV files for further analysis.
 
-The "Submission_Score.py" is a 2nd part of the application that displays all submissions and various visualizations showing the distribution of responses for each question from **[this](https://docs.google.com/spreadsheets/d/1aHgyMoxp7aINImqu3eXiwAzq5QvTqbfhUaKv2fkdHss/edit?usp=sharing)** Google Sheet. You can also download the data for each folder ("Submission-Now" or "Submission-Pandemic") as a CSV file.
+## Getting Started
 
-## License
+### Prerequisites
 
-[MIT](https://choosealicense.com/licenses/mit/)
+-   Python 3.7 or higher
+-   Streamlit
+-   Pandas
+-   Plotly
+
+To install the required libraries, run the following command:
+
+`pip install streamlit pandas plotly` 
+
+### How to Run
+
+1.  Clone this repository.
+
+`git clone https://github.com/Kaludii/Instagram-Insights.git` 
+
+2.  Navigate to the project directory.
+
+`cd Instagram-Insights` 
+
+3.  Run the Streamlit app.
+
+`streamlit run app.py` 
+
+4.  Open your web browser and visit `http://localhost:8501`.
